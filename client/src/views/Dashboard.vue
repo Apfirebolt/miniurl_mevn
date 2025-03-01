@@ -54,6 +54,14 @@
 
       <div v-else class="mt-8 text-center text-gray-600">No urls found</div>
     </div>
+    <!-- Pagination -->
+    <Pagination
+      @goToPreviousPage="goToPreviousPage"
+      @goToNextPage="goToNextPage"
+      :allUrls="allUrls"
+      :currentPage="currentPage"
+      :numberOfItemsPerPage="numberOfItemsPerPage"
+    />
   </section>
   <TransitionRoot appear :show="isUrlModalOpened" as="template">
     <Dialog as="div" @close="closeUrlModal" class="relative z-10">
@@ -156,6 +164,7 @@ import { useAuth } from "../store/auth";
 import { useUrlStore } from "../store/url";
 import UrlForm from "../components/UrlForm.vue";
 import ConfirmModal from "../components/Confirm.vue";
+import Pagination from "../components/Pagination.vue";
 
 const auth = useAuth();
 const url = useUrlStore();
@@ -163,6 +172,8 @@ const isUrlModalOpened = ref(false);
 const isConfirmModalOpened = ref(false);
 const deleteMessage = ref("");
 const selectedUrl = ref(null);
+const currentPage = ref(1);
+const numberOfItemsPerPage = 5;
 
 const allUrls = computed(() => url.getUrls);
 const authData = computed(() => auth.getAuthData);
@@ -203,6 +214,20 @@ const addUrlActionUtil = async (urlData) => {
 
 const openUrlInNewTab = (urlCode) => {
   window.open(urlCode, "_blank");
+};
+
+const goToNextPage = async () => {
+  if (currentPage.value < allUrls.value.lastPage) {
+    currentPage.value += 1;
+    await url.getUrlsAction(currentPage.value);
+  }
+};
+
+const goToPreviousPage = async () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+    await url.getUrlsAction(currentPage.value);
+  }
 };
 
 onMounted(async () => {
