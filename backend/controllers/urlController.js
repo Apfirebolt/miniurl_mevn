@@ -41,6 +41,22 @@ const getUserUrls = asyncHandler(async (req, res) => {
 const createUrl = asyncHandler(async (req, res) => {
   const { originalUrl } = req.body;
 
+  // Original url must be a valid URL
+  if (!originalUrl) {
+    res.status(400);
+    throw new Error("Original URL is required");
+  }
+
+  // check if the Url is valid url or not using regex
+  const urlRegex = new RegExp(
+    "^(http|https)://",
+    "i"
+  );
+  if (!urlRegex.test(originalUrl)) {
+    res.status(400);
+    throw new Error("Invalid URL");
+  }
+
   const urlCode = Math.random().toString(36).substring(7);  
 
   const url = await Url.create({

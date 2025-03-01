@@ -41,7 +41,13 @@ export const useUrlStore = defineStore("url", {
         }
       } catch (error) {
         console.log(error);
-        return error;
+        if (error.response.status === 400) {
+          let message = "Bad request";
+          if (error.response.data.message) {
+            message = error.response.data.message;
+          }
+          toast.error(message);
+        }
       } finally {
         this.loading = false;
       }

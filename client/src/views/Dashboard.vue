@@ -61,11 +61,38 @@
         </h3>
         <div class="bg-white shadow-md rounded-lg p-4">
           <Bar id="count-charts" :options="chartOptions" :data="chartData" />
-          <Line
-            id="count-charts-line"
-            :options="chartOptions"
-            :data="chartData"
-          />
+            <div class="flex justify-between">
+              <div class="w-1/2">
+                <Line
+                id="count-charts-line"
+                :options="chartOptions"
+                :data="chartData"
+                />
+              </div>
+              <div class="w-1/2">
+                <Pie
+                id="count-charts-pie"
+                :options="chartOptions"
+                :data="chartData"
+                />
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <div class="w-1/2">
+                <Doughnut
+                id="count-charts-doughnut"
+                :options="chartOptions"
+                :data="chartData"
+                />
+              </div>
+              <div class="w-1/2">
+                <Bubble
+                id="count-charts-bubble"
+                :options="chartOptions"
+                :data="chartData"
+                />
+              </div>
+            </div>
         </div>
       </div>
     </div>
@@ -176,13 +203,14 @@ import {
   DialogPanel,
 } from "@headlessui/vue";
 // import vue-chart-3 chart.js
-import { Bar, Pie, Line } from "vue-chartjs";
+import { Bar, Pie, Line, Doughnut, Bubble } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
   Tooltip,
   Legend,
   BarElement,
+  ArcElement,
   PointElement,
   LineElement,
   CategoryScale,
@@ -213,6 +241,7 @@ ChartJS.register(
   BarElement,
   LineElement,
   CategoryScale,
+  ArcElement,
   LinearScale,
   PointElement
 );
@@ -262,6 +291,7 @@ const chartOptions = {
   Legend: {
     display: false,
   },
+
 };
 
 const getTinyUrl = (urlCode) => {
