@@ -99,6 +99,20 @@ export const useUrlStore = defineStore("url", {
       }
     },
 
+    async incrementUrlCount(urlItem) {
+      try {
+        const headers = {
+          Authorization: `Bearer ${auth.authData.token}`,
+        };
+        const response = await httpClient.patch("urls/" + urlItem._id + "/count", null, {
+          headers,
+        });
+        this.url = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     resetUrlData() {
       this.url = {};
       this.urls = [];

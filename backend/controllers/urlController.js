@@ -83,6 +83,22 @@ const deleteUrl = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Increment view count of URL
+// @route   GET /api/url/:id
+// @access  Private - User or Admin
+const incrementUrlCount = asyncHandler(async (req, res) => {
+  const url = await Url.findById(req.params.id);
+
+  if (url) {
+    url.count = url.count + 1;
+    await url.save();
+    res.json(url);
+  } else {
+    res.status(404);
+    throw new Error("URL not found");
+  }
+});
+
 // @desc    Get existing URL
 // @route   GET /api/url/:id
 // @access  Private - User or Admin
@@ -105,4 +121,4 @@ const getUrl = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUserUrls, createUrl, deleteUrl, getUrl };
+export { getUserUrls, createUrl, deleteUrl, getUrl, incrementUrlCount };

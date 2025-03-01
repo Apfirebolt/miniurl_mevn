@@ -35,9 +35,10 @@
           <p class="text-lg text-gray-800 my-2">
             Tiny Url : {{ getTinyUrl(urlItem.urlCode) }}
           </p>
+          <p class="text-md text-gray-800 my-2">Clicks : {{ urlItem.count }}</p>
           <div class="mt-4 flex justify-end">
             <button
-              @click="() => openUrlInNewTab(urlItem.originalUrl)"
+              @click="() => openUrlInNewTab(urlItem)"
               class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2"
             >
               View
@@ -53,6 +54,20 @@
       </div>
 
       <div v-else class="mt-8 text-center text-gray-600">No urls found</div>
+
+      <div class="mt-4 mx-auto container">
+        <h3 class="text-2xl text-center text-gray-800 mb-4 bg-neutral-100 py-2">
+          Chart Data
+        </h3>
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <Bar id="count-charts" :options="chartOptions" :data="chartData" />
+          <Line
+            id="count-charts-line"
+            :options="chartOptions"
+            :data="chartData"
+          />
+        </div>
+      </div>
     </div>
     <!-- Pagination -->
     <Pagination
@@ -160,6 +175,19 @@ import {
   TransitionRoot,
   DialogPanel,
 } from "@headlessui/vue";
+// import vue-chart-3 chart.js
+import { Bar, Pie, Line } from "vue-chartjs";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  PointElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
 import { useAuth } from "../store/auth";
 import { useUrlStore } from "../store/url";
 import UrlForm from "../components/UrlForm.vue";
@@ -177,6 +205,64 @@ const numberOfItemsPerPage = 5;
 
 const allUrls = computed(() => url.getUrls);
 const authData = computed(() => auth.getAuthData);
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+);
+
+const chartData = computed(() => {
+  return {
+    labels:
+      allUrls.value && allUrls.value.data
+        ? allUrls.value.data.map((urlItem) => urlItem.urlCode)
+        : [],
+    datasets: [
+      {
+        data:
+          allUrls.value && allUrls.value.data
+            ? allUrls.value.data.map((urlItem) => urlItem.count)
+            : [],
+        backgroundColor: [
+          "#41B883",
+          "#E46651",
+          "#00D8FF",
+          "#DD1E70",
+          "#34495E",
+        ], // Array of colors
+        borderColor: "#f9f9f9",
+        label: "Clicks",
+      },
+    ],
+  };
+});
+
+const chartOptions = {
+  responsive: true,
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: "Tiny Url",
+      },
+    },
+    y: {
+      title: {
+        display: true,
+        text: "Clicks",
+      },
+    },
+  },
+  Legend: {
+    display: false,
+  },
+};
 
 const getTinyUrl = (urlCode) => {
   return `https://tinyurl/${urlCode}`;
@@ -202,7 +288,7 @@ const closeConfirmModal = () => {
 
 const confirmDelete = async () => {
   await url.deleteUrl(selectedUrl.value._id);
-  await url.getUrlsAction();
+  await url.getUrlsAction(currentPage.value);
   closeConfirmModal();
 };
 
@@ -212,8 +298,13 @@ const addUrlActionUtil = async (urlData) => {
   closeUrlModal();
 };
 
-const openUrlInNewTab = (urlCode) => {
-  window.open(urlCode, "_blank");
+const openUrlInNewTab = async (urlItem) => {
+  window.open(urlItem.originalUrl, "_blank");
+  await url.incrementUrlCount(urlItem);
+  // after 2 seconds refresh the urls
+  setTimeout(async () => {
+    await url.getUrlsAction(currentPage.value);
+  }, 2000);
 };
 
 const goToNextPage = async () => {
