@@ -1,12 +1,11 @@
 <template>
-  <header-component />
   <section class="bg-white shadow sm:rounded-lg" id="about">
     <div class="px-4 py-5 sm:p-6">
       <h2 class="text-3xl my-5 text-center text-red-800">DASHBOARD</h2>
       <div class="flex flex-col items-center bg-gray-100 p-4 rounded-md">
         <p>
           Welcome to the dashboard,
-          <span class="text-lg font-semibold text-gray-700">
+          <span v-if="authData" class="text-lg font-semibold text-gray-700">
             {{ authData.username }}
           </span>
           Here you can add, view, and delete urls.

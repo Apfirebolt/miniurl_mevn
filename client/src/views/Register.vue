@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <img class="mx-auto h-32 w-48" src="../assets/1.png" alt="Workflow" />
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Sign Up to your account
       </h2>
@@ -9,6 +8,7 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <img class="mx-auto h-42 w-64" src="../assets/1.png" alt="Workflow" />
         <form class="space-y-6" @submit="handleSubmit">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
@@ -91,14 +91,11 @@
       </div>
     </div>
   </div>
-  <FooterComponent />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useAuth } from "../store/auth";
-import router from "../routes/index";
-import FooterComponent from "../components/FooterComponent.vue";
 
 const email = ref("");
 const username = ref("");

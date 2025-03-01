@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <img class="mx-auto h-32 w-48" src="../assets/1.png" alt="Workflow" />
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Sign in to your account
       </h2>
@@ -10,6 +9,7 @@
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <form class="space-y-6" @submit="onSubmit">
+          <img class="mx-auto h-42 w-64" src="../assets/1.png" alt="Workflow" />
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
               Email address
@@ -76,7 +76,6 @@
       </div>
     </div>
   </div>
-  <FooterComponent />
 </template>
 
 <script setup>
@@ -84,13 +83,12 @@ import { computed } from "vue";
 import { useAuth } from "../store/auth";
 import { useForm } from "vee-validate";
 import router from "../routes/index";
-import FooterComponent from "../components/FooterComponent.vue";
 
 const auth = useAuth();
 const authData = computed(() => auth.getAuthData);
 
 if (authData.value) {
-  // router.push({ name: 'Expense' });
+  router.push({ name: 'Dashboard' });
 }
 
 // Validation, or use `yup` or `zod`

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <header-component />
     <router-view />
     <FooterComponent />
   </div>
