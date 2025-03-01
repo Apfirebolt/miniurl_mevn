@@ -5,7 +5,6 @@ import {
     getUrl,
     getUserUrls,
     deleteUrl,
-    updateUrl
 } from '../controllers/urlController.js'
 import { protect } from '../middleware/authMiddleware.js'
 
@@ -16,7 +15,6 @@ router.route('/')
 router
     .route('/:id')
     .get(protect, getUrl)
-    .patch(protect, updateUrl)
     .delete(protect, deleteUrl)
 
 export default router

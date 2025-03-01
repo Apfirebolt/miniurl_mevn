@@ -39,11 +39,13 @@ const getUserUrls = asyncHandler(async (req, res) => {
 // @route   POST /api/url
 // @access  Private - User
 const createUrl = asyncHandler(async (req, res) => {
-  const { originalUrl, shortUrl } = req.body;
+  const { originalUrl } = req.body;
+
+  const urlCode = Math.random().toString(36).substring(7);  
 
   const url = await Url.create({
     originalUrl,
-    shortUrl,
+    urlCode,
     user: req.user._id,
   });
 
@@ -52,33 +54,6 @@ const createUrl = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("Invalid URL data");
-  }
-});
-
-// @desc    Update existing URL
-// @route   PATCH /api/url/:id
-// @access  Private - Admin only
-const updateUrl = asyncHandler(async (req, res) => {
-  const url = await Url.findOne({ _id: req.params.id });
-
-  if (
-    url &&
-    url.user.toString() !== req.user._id.toString() &&
-    req.user.isAdmin === false
-  ) {
-    res.status(403);
-    throw new Error("Only URL owner or admin can edit URL");
-  }
-
-  if (url) {
-    url.originalUrl = req.body.originalUrl || url.originalUrl;
-    url.shortUrl = req.body.shortUrl || url.shortUrl;
-    const updatedUrl = await url.save();
-
-    res.json(updatedUrl);
-  } else {
-    res.status(404);
-    throw new Error("URL not found");
   }
 });
 
@@ -130,4 +105,4 @@ const getUrl = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUserUrls, createUrl, updateUrl, deleteUrl, getUrl };
+export { getUserUrls, createUrl, deleteUrl, getUrl };

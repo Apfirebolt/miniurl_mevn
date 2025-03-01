@@ -11,11 +11,6 @@ const urlSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    shortUrl: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     urlCode: {
       type: String,
       required: true,

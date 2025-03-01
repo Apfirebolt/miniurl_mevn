@@ -29,6 +29,11 @@ const routes = [
         component: () => import('../views/Register.vue')
     },
     {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('../views/Dashboard.vue')
+    },
+    {
         path: '/server-error',
         name: 'ServerError',
         component: () => import('../views/ServerError.vue')

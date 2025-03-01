@@ -9,7 +9,7 @@ const toast = useToast();
 
 export const useAuth = defineStore("auth", {
   state: () => ({
-    authData: JSON.parse(localStorage.getItem("user")) || null,
+    authData: JSON.parse(Cookie.get("user")) || null,
     loading: ref(false),
   }),
 
@@ -31,10 +31,15 @@ export const useAuth = defineStore("auth", {
           toast.success("Login successful!");
           // set the data in cookie
           Cookie.set("user", JSON.stringify(response.data), { expires: 30 });
-          router.push("/");
+          router.push("/dashboard");
         }
       } catch (error) {
-        console.log(error);
+        let message = "An error occurred!";
+        if (error.response && error.response.data) {
+          message = error.response.data.message;
+        }
+        toast.error(message);
+        console.log('Some error', error);
         return error;
       }
     },
@@ -42,13 +47,18 @@ export const useAuth = defineStore("auth", {
     async registerAction(registerData) {
       try {
         const response = await httpClient.post("users", registerData);
-        if (response.data) {
+        if (response.data && response.status === 201) {
           this.authData = response.data;
           toast.success("Registration successful!");
-          localStorage.setItem("user", JSON.stringify(response.data));
+          Cookie.set("user", JSON.stringify(response.data), { expires: 30 });
           router.push("/dashboard");
         }
       } catch (error) {
+        let message = "An error occurred!";
+        if (error.response && error.response.data) {
+          message = error.response.data.message;
+        }
+        toast.error(message);
         console.log(error);
         return error;
       }
@@ -71,7 +81,7 @@ export const useAuth = defineStore("auth", {
 
     logout() {
       this.authData = null;
-      localStorage.removeItem("user");
+      Cookie.remove("user");
       router.push("/login");
       toast.success("Logout successful!");
     },
