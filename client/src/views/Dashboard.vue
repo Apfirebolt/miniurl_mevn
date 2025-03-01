@@ -35,9 +35,10 @@
           <p class="text-lg text-gray-800 my-2">
             Tiny Url : {{ getTinyUrl(urlItem.urlCode) }}
           </p>
+          <p class="text-md text-gray-800 my-2">Clicks : {{ urlItem.count }}</p>
           <div class="mt-4 flex justify-end">
             <button
-              @click="() => openUrlInNewTab(urlItem.originalUrl)"
+              @click="() => openUrlInNewTab(urlItem)"
               class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2"
             >
               View
@@ -212,8 +213,13 @@ const addUrlActionUtil = async (urlData) => {
   closeUrlModal();
 };
 
-const openUrlInNewTab = (urlCode) => {
-  window.open(urlCode, "_blank");
+const openUrlInNewTab = async (urlItem) => {
+  window.open(urlItem.originalUrl, "_blank");
+  await url.incrementUrlCount(urlItem);
+  // after 2 seconds refresh the urls
+  setTimeout(async () => {
+    await url.getUrlsAction();
+  }, 2000);
 };
 
 const goToNextPage = async () => {

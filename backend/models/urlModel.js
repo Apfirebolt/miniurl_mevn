@@ -16,6 +16,10 @@ const urlSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    count: {
+      type: Number,
+      default: 0,
+    },
     date: {
       type: Date,
       default: Date.now,
