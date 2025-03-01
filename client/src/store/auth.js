@@ -9,7 +9,7 @@ const toast = useToast();
 
 export const useAuth = defineStore("auth", {
   state: () => ({
-    authData: JSON.parse(Cookie.get("user")) || null,
+    authData: Cookie.get("user") ? JSON.parse(Cookie.get("user")) : null,
     loading: ref(false),
   }),
 
