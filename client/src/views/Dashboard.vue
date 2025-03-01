@@ -25,6 +25,35 @@
           Add Url
         </button>
       </div>
+      <div
+        v-if="allUrls && allUrls.data && allUrls.data.length"
+        class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2"
+      >
+        <div
+          v-for="urlItem in allUrls.data"
+          :key="urlItem._id"
+          class="bg-white shadow-md rounded-lg p-4"
+        >
+          <p class="text-sm text-gray-600">{{ urlItem.originalUrl }}</p>
+          <p class="text-sm text-gray-600">{{ urlItem.urlCode }}</p>
+          <div class="mt-4 flex justify-end">
+            <button
+              @click="() => openUrlInNewTab(urlItem.originalUrl)"
+              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2"
+            >
+              View
+            </button>
+            <button
+              @click="() => openConfirmModal(urlItem)"
+              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="mt-8 text-center text-gray-600">No urls found</div>
     </div>
   </section>
   <TransitionRoot appear :show="isUrlModalOpened" as="template">
@@ -147,7 +176,9 @@ const openUrlModal = () => {
   isUrlModalOpened.value = true;
 };
 
-const openConfirmModal = () => {
+const openConfirmModal = (url) => {
+  selectedUrl.value = url;
+  deleteMessage.value = `Are you sure you want to delete ${url.originalUrl}?`;
   isConfirmModalOpened.value = true;
 };
 
@@ -157,12 +188,18 @@ const closeConfirmModal = () => {
 
 const confirmDelete = async () => {
   await url.deleteUrl(selectedUrl.value._id);
+  await url.getUrlsAction();
   closeConfirmModal();
 };
 
 const addUrlActionUtil = async (urlData) => {
   await url.addUrl(urlData);
+  await url.getUrlsAction();
   closeUrlModal();
+};
+
+const openUrlInNewTab = (urlCode) => {
+  window.open(urlCode, "_blank");
 };
 
 onMounted(async () => {

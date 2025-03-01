@@ -32,22 +32,30 @@ export const useUrlStore = defineStore("url", {
         const headers = {
           Authorization: `Bearer ${auth.authData.token}`,
         };
-        const response = await httpClient.post("url", urlData, {
+        this.loading = true;
+        const response = await httpClient.post("urls", urlData, {
           headers,
         });
         if (response.status === 201) {
-            toast.success("URL added!");
+          toast.success("URL added!");
         }
       } catch (error) {
         console.log(error);
         return error;
+      } finally {
+        this.loading = false;
       }
     },
 
     async getUrlAction(urlId) {
       try {
-        const response = await httpClient.get("url/" + urlId);
-        console.log(response);
+        const headers = {
+          Authorization: `Bearer ${auth.authData.token}`,
+        };
+        const response = await httpClient.get("urls/" + urlId, {
+          headers,
+        });
+        this.url = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -58,13 +66,16 @@ export const useUrlStore = defineStore("url", {
         const headers = {
           Authorization: `Bearer ${auth.authData.token}`,
         };
-        const response = await httpClient.get("url?page=" + page, {
+        this.loading = true;
+        const response = await httpClient.get("urls?page=" + page, {
           headers,
         });
         this.urls = response.data;
       } catch (error) {
         console.log(error);
         return error;
+      } finally {
+        this.loading = false;
       }
     },
 
@@ -73,15 +84,18 @@ export const useUrlStore = defineStore("url", {
         const headers = {
           Authorization: `Bearer ${auth.authData.token}`,
         };
-        const response = await httpClient.delete("url/" + urlId, {
+        this.loading = true;
+        const response = await httpClient.delete("urls/" + urlId, {
           headers,
         });
         if (response.status === 200) {
-            toast.success("URL deleted!");
+          toast.success("URL deleted!");
         }
       } catch (error) {
         console.log(error);
         return error;
+      } finally {
+        this.loading = false;
       }
     },
 
