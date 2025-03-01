@@ -1,14 +1,13 @@
 <template>
   <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <img class="mx-auto h-36 w-48" src="../assets/1.png" alt="Workflow" />
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Add Url
       </h2>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <div class="mt-4 sm:mx-auto sm:max-w-full">
+      <div class="bg-white p-4 shadow sm:px-10">
         <form class="space-y-6" @submit="handleSubmit">
           <div>
             <label

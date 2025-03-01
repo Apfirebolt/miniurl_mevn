@@ -3,28 +3,24 @@
   <section class="bg-white shadow sm:rounded-lg" id="about">
     <div class="px-4 py-5 sm:p-6">
       <h2 class="text-3xl my-5 text-center text-red-800">DASHBOARD</h2>
-      <p>
-        Futura is an expense tracker app that helps you keep track of your
-        expenses. It is a simple and easy to use app that helps you manage your
-        expenses and keep track of your spending. You can add, edit and delete
-        expenses, view your expenses by category, and view your expenses by
-        month.
-      </p>
-      <p class="mt-4">
-        The app is built using Vue.js, Tailwind CSS, and Express. It is a single
-        page application that uses Express back-end for authentication and
-        MongoDB for data storage. The app is responsive and works on desktop,
-        tablet, and mobile devices.
-      </p>
-
-      <div class="mt-8">
-        <button
-          @click="openUrlModal"
-          class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Add Url
-        </button>
+      <div class="flex flex-col items-center bg-gray-100 p-4 rounded-md">
+        <p>
+          Welcome to the dashboard,
+          <span class="text-lg font-semibold text-gray-700">
+            {{ authData.username }}
+          </span>
+          Here you can add, view, and delete urls.
+        </p>
+        <div class="mt-8">
+          <button
+            @click="openUrlModal"
+            class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Add Url
+          </button>
+        </div>
       </div>
+
       <div
         v-if="allUrls && allUrls.data && allUrls.data.length"
         class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2"
@@ -34,8 +30,12 @@
           :key="urlItem._id"
           class="bg-white shadow-md rounded-lg p-4"
         >
-          <p class="text-sm text-gray-600">{{ urlItem.originalUrl }}</p>
-          <p class="text-sm text-gray-600">{{ urlItem.urlCode }}</p>
+          <p class="text-lg text-gray-800 my-2">
+            Original Url : {{ urlItem.originalUrl }}
+          </p>
+          <p class="text-lg text-gray-800 my-2">
+            Tiny Url : {{ getTinyUrl(urlItem.urlCode) }}
+          </p>
           <div class="mt-4 flex justify-end">
             <button
               @click="() => openUrlInNewTab(urlItem.originalUrl)"
@@ -167,6 +167,10 @@ const selectedUrl = ref(null);
 
 const allUrls = computed(() => url.getUrls);
 const authData = computed(() => auth.getAuthData);
+
+const getTinyUrl = (urlCode) => {
+  return `https://tinyurl/${urlCode}`;
+};
 
 const closeUrlModal = () => {
   isUrlModalOpened.value = false;

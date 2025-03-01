@@ -1,8 +1,8 @@
 <template>
   <footer class="bg-gray-800 py-4">
     <div class="container mx-auto px-4">
-      <p class="text-center text-gray-400 text-sm">
-        &copy; {{ currentYear }} URL Shortener Application
+      <p class="text-center text-gray-100 text-sm">
+        &copy; {{ currentYear }} Mini Url - A Url Shortening Service
       </p>
     </div>
   </footer>
