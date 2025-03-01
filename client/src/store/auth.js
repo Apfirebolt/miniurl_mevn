@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import Cookie from "js-cookie";
 import router from "../routes";
 import httpClient from "../plugins/interceptor";
 import { useToast } from "vue-toastification";
@@ -28,8 +29,9 @@ export const useAuth = defineStore("auth", {
         if (response.data) {
           this.authData = response.data;
           toast.success("Login successful!");
-          localStorage.setItem("user", JSON.stringify(response.data));
-          router.push("/dashboard");
+          // set the data in cookie
+          Cookie.set("user", JSON.stringify(response.data), { expires: 30 });
+          router.push("/");
         }
       } catch (error) {
         console.log(error);
@@ -54,10 +56,13 @@ export const useAuth = defineStore("auth", {
 
     async getProfileData() {
       try {
+        // get the token from the cookie
+        const authData = Cookie.get("user");
         const headers = {
-          Authorization: `Bearer ${this.authData.token}`,
+          Authorization: `Bearer ${JSON.parse(authData).token}`,
         };
         const response = await httpClient.get("users/profile", { headers });
+        console.log(response.data);
       } catch (error) {
         console.log(error);
         return error;

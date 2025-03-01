@@ -64,5 +64,11 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { useAuth } from '../store/auth';
+const auth = useAuth();
 
+onMounted(async () => {
+    await auth.getProfileData();
+});
 </script>

@@ -7,9 +7,7 @@ import App from './App.vue'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import HeaderComponent from './components/HeaderComponent.vue'
-// Swiper imports
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-import 'swiper/css'
+
 // AOS imports
 import 'aos/dist/aos.css'
 
@@ -17,7 +15,6 @@ const app = createApp(App)
 app.use(router)
 app.use(createPinia())
 app.use(VueSmoothScroll)
-app.use(VueAwesomeSwiper)
 app.component('header-component', HeaderComponent)
 app.mount('#app');
 
