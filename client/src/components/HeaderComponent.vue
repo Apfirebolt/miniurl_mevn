@@ -41,7 +41,7 @@
                 href="#"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 @click.prevent="logoutUtil"
-                >Logout</router-link
+                >Log out</router-link
               >
               <router-link
                 v-if="userData"
@@ -98,7 +98,7 @@
           to="/logout"
           class="text-white block px-3 py-2 rounded-md text-base font-medium"
           @click.prevent="logoutUtil"
-          >Logout</router-link
+          >Log out</router-link
         >
         <router-link
           v-if="userData"
@@ -112,10 +112,10 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from "vue";
+import { computed } from "vue";
 import { useAuth } from "../store/auth";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
+import { MenuIcon, XIcon } from "@heroicons/vue/outline";
 
 const auth = useAuth();
 const userData = computed(() => auth.authData);

@@ -70,7 +70,7 @@
           <div>
             <button
               type="submit"
-              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-dark-slate-grey focus:outline-none focus:ring-2 focus:ring-offset-2"
             >
               Sign Up
             </button>
@@ -81,7 +81,7 @@
               Already have an account?
               <router-link
                 to="/login"
-                class="font-medium text-indigo-600 hover:text-indigo-500"
+                class="font-medium text-dark-slate-grey"
               >
                 Login
               </router-link>

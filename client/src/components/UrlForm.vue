@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      <h2 class="text-center text-3xl font-extrabold py-2">
         Add Url
       </h2>
     </div>
 
-    <div class="mt-4 sm:mx-auto sm:max-w-full">
+    <div class="mt-4 sm:mx-auto sm:w-full text-jet-black">
       <div class="bg-white p-4 shadow sm:px-10">
         <form class="space-y-6" @submit="handleSubmit">
           <div>
@@ -28,17 +28,17 @@
             </div>
           </div>
 
-          <div class="flex justify-between">
+          <div class="flex justify-center">
             <button
               type="submit"
-              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="py-2 mr-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium bg-dark-slate-grey text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Add Url
             </button>
 
             <button
               @click="closeModalUtil"
-              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium bg-jet-black text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Cancel
             </button>

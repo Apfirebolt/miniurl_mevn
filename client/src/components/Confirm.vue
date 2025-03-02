@@ -1,28 +1,28 @@
 <template>
   <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      <h2 class="text-center text-3xl font-extrabold bg-ghost-grey py-2">
         Confirmation
       </h2>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-jet-black">
+      <div class="py-8 px-4 shadow sm:rounded-lg">
         <form class="space-y-6" @submit="handleSubmit">
-          <p class="text-red-700 font-semibold">
+          <p class="font-semibold text-center text-lg">
             {{ message }}
           </p>
-          <div class="flex justify-between">
+          <div class="flex justify-center">
             <button
               type="submit"
-              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="py-2 mr-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium bg-dark-slate-grey text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Confirm
             </button>
 
             <button
               @click="closeModalUtil"
-              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium bg-jet-black text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Cancel
             </button>

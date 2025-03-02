@@ -151,7 +151,7 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-xl transform overflow-hidden rounded-2xl bg-light-blue text-left align-middle shadow-xl transition-all"
             >
               <div class="mt-2">
                 <UrlForm
@@ -194,7 +194,7 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-light-blue text-left align-middle shadow-xl transition-all"
             >
               <div class="mt-2">
                 <ConfirmModal
