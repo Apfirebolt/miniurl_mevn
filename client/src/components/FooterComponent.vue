@@ -1,7 +1,7 @@
 <template>
-  <footer class="bg-gray-800 py-4">
+  <footer class="bg-jet-black py-4">
     <div class="container mx-auto px-4">
-      <p class="text-center text-gray-100 text-sm">
+      <p class="text-center text-light-blue text-sm">
         &copy; {{ currentYear }} Mini Url - A Url Shortening Service
       </p>
     </div>

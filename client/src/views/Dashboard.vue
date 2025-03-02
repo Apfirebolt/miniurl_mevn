@@ -1,7 +1,7 @@
 <template>
-  <section class="bg-white shadow sm:rounded-lg" id="about">
-    <div class="px-4 py-5 sm:p-6">
-      <h2 class="text-3xl my-5 text-center text-red-800">DASHBOARD</h2>
+  <section class="shadow sm:rounded-lg" id="about">
+    <div class="px-4 py-5">
+      <h2 class="text-3xl my-2 py-2 text-center text-jet-black">DASHBOARD</h2>
       <div class="flex flex-col items-center bg-gray-100 p-4 rounded-md">
         <p>
           Welcome to the dashboard,
@@ -10,10 +10,10 @@
           </span>
           Here you can add, view, and delete urls.
         </p>
-        <div class="mt-8">
+        <div class="mt-2">
           <button
             @click="openUrlModal"
-            class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="py-2 text-sm px-4 border border-transparent rounded-md shadow-sm font-medium bg-cadet-grey hover:cursor-pointer text-white"
           >
             Add Url
           </button>
@@ -22,34 +22,52 @@
 
       <div
         v-if="allUrls && allUrls.data && allUrls.data.length"
-        class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2"
+        class="mt-8 container mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2"
       >
         <div
           v-for="urlItem in allUrls.data"
           :key="urlItem._id"
-          class="bg-white shadow-md rounded-lg p-4"
+          class="bg-dark-slate-grey text-white shadow-md rounded-lg"
         >
-          <p class="text-lg text-gray-800 my-2">
-            Original Url : {{ urlItem.originalUrl }}
-          </p>
-          <p class="text-lg text-gray-800 my-2">
-            Tiny Url : {{ getTinyUrl(urlItem.urlCode) }}
-          </p>
-          <p class="text-md text-gray-800 my-2">Clicks : {{ urlItem.count }}</p>
-          <div class="mt-4 flex justify-end">
+          <div class="text-lg my-2 flex justify-between px-4 py-2">
+            <p>
+              Original Url
+            </p>
+             <p>
+              {{ urlItem.originalUrl }}
+             </p>
+          </div>
+          <div class="text-lg my-2 flex justify-between px-4 py-2">
+            <p>
+              Tiny Url
+            </p>
+             <p>
+              {{ urlItem.urlCode }}
+             </p>
+          </div>
+          <div class="text-lg my-2 flex justify-between px-4 py-2">
+            <p>
+              Clicks
+            </p>
+             <p>
+              {{ urlItem.count }}
+             </p>
+          </div>
+          
+            <div class="mt-2 flex px-4 py-2 justify-center">
             <button
               @click="() => openUrlInNewTab(urlItem)"
-              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2"
+              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-cadet-grey hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mr-2"
             >
               View
             </button>
             <button
               @click="() => openConfirmModal(urlItem)"
-              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-jet-black hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               Delete
             </button>
-          </div>
+            </div>
         </div>
       </div>
 
@@ -57,7 +75,7 @@
 
       <div class="mt-4 mx-auto container">
         <h3 class="text-2xl text-center text-gray-800 mb-4 bg-neutral-100 py-2">
-          Chart Data
+          Analytics
         </h3>
         <div class="bg-white shadow-md rounded-lg p-4">
           <Bar id="count-charts" :options="chartOptions" :data="chartData" />
@@ -250,7 +268,10 @@ const chartData = computed(() => {
   return {
     labels:
       allUrls.value && allUrls.value.data
-        ? allUrls.value.data.map((urlItem) => urlItem.urlCode)
+        ? allUrls.value.data.map((urlItem) => {
+        const match = urlItem.originalUrl.match(/https?:\/\/(www\.)?([^\/.]+)\./);
+        return match ? match[2] : urlItem.urlCode;
+          })
         : [],
     datasets: [
       {
@@ -259,11 +280,11 @@ const chartData = computed(() => {
             ? allUrls.value.data.map((urlItem) => urlItem.count)
             : [],
         backgroundColor: [
-          "#41B883",
-          "#E46651",
-          "#00D8FF",
-          "#DD1E70",
-          "#34495E",
+          "#B8DBD9", // Light Blue
+          "#F4F4F9", // Ghost Grey
+          "#586F7C", // Cadet Grey
+          "#2F4550", // Dark Slate Grey
+          "#333333", // Jet Black
         ], // Array of colors
         borderColor: "#f9f9f9",
         label: "Clicks",
@@ -292,10 +313,6 @@ const chartOptions = {
     display: false,
   },
 
-};
-
-const getTinyUrl = (urlCode) => {
-  return `https://tinyurl/${urlCode}`;
 };
 
 const closeUrlModal = () => {
