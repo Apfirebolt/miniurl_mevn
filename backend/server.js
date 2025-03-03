@@ -18,7 +18,7 @@ connectDB();
 redisClient();
 
 const app = express();
-// const redis = redisClient();
+const redis = redisClient();
 // redis.connect();
 
 // redis.set('mongo_redis', 'A value set by redis from Express', (err, reply) => {
