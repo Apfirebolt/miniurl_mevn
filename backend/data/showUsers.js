@@ -33,3 +33,5 @@ async function connectAndShowUsers() {
 }
 
 connectAndShowUsers();
+
+export default connectAndShowUsers;

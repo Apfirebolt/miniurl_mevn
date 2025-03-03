@@ -62,6 +62,68 @@ cd frontend
 npm run build
 ```
 
+## Adding Cron Jobs
+
+```
+npm install node-cron
+```
+
+Write the script to show all the users of the database connected every minute and run this script inside tha server.js file every minute using node-cron.
+
+```
+// index.js (with ES modules)
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import User from '../models/userModel.js'; // Import the User model
+
+dotenv.config();
+
+async function connectAndShowUsers() {
+  try {
+    await mongoose.connect("mongodb://localhost:27017/mevn_url_shortener");
+    console.log('MongoDB Connected');
+
+    // Fetch all users
+    const users = await User.find({});
+    console.log('Users:', users);
+
+    // Optionally, process the users:
+    if (users && users.length > 0) {
+      users.forEach(user => {
+        console.log(`Username: ${user.username}, Email: ${user.email}`);
+      });
+    } else {
+        console.log("No users found");
+    }
+
+    // Close the connection (optional, but good practice):
+    await mongoose.disconnect();
+    console.log('MongoDB Disconnected');
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+connectAndShowUsers();
+
+export default connectAndShowUsers;
+```
+
+Inside the server.js import and use it like this 
+
+```
+import cron from 'node-cron';
+import connectAndShowUsers from './data/showUsers.js';
+
+cron.schedule('* * * * *', () => {
+  console.log('Running a task every minute');
+  // This would connect to MongoDb and show all users every minute
+  // connectAndShowUsers();
+});
+```
+That's it, it should now display all user data every minute on console. This runs independently of the main node server. 
+
 ## Docker deployment
 
 The application can be easily deployed using Docker containers. The application uses the following docker compose script to spawn 3 containers, one each for MongoDB, Express and Nginx
