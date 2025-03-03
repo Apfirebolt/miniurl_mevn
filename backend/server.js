@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cron from 'node-cron';
 dotenv.config();
-import connectDB from './config/db.js';
-import redisClient from './config/redisDb.js';
+import connectDB from './config/db.js';;
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
@@ -15,18 +14,8 @@ import urlRoutes from './routes/urlRoutes.js';
 const port = process.env.PORT || 5000;
 
 connectDB();
-redisClient();
 
 const app = express();
-const redis = redisClient();
-// redis.connect();
-
-// redis.set('mongo_redis', 'A value set by redis from Express', (err, reply) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(reply);
-// });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

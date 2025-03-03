@@ -158,10 +158,21 @@ const deleteUrl = asyncHandler(async (req, res) => {
 // @access  Private - User or Admin
 const incrementUrlCount = asyncHandler(async (req, res) => {
   const url = await Url.findById(req.params.id);
+  const userId = req.user._id;
 
   if (url) {
     url.count = url.count + 1;
     await url.save();
+    // Clear cache for the user's URLs
+    const cacheKey = `userUrls:${userId}:*`;
+    try {
+      const keys = await redisClient.keys(cacheKey);
+      if (keys.length > 0) {
+        await redisClient.del(keys);
+      }
+    } catch (err) {
+      console.error("Error deleting cache keys", err);
+    }
     res.json(url);
   } else {
     res.status(404);
