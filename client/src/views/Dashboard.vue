@@ -73,7 +73,7 @@
 
       <div v-else class="mt-8 text-center text-gray-600">No urls found</div>
 
-      <div class="mt-4 mx-auto container">
+      <div v-if="allUrls && allUrls.data && allUrls.data.length" class="mt-4 mx-auto container">
         <h3 class="text-2xl text-center text-gray-800 mb-4 bg-neutral-100 py-2">
           Analytics
         </h3>
@@ -113,6 +113,8 @@
             </div>
         </div>
       </div>
+      <div v-else class="mt-8 text-center text-gray-600">No urls found, please add urls to view analytical charts.</div>
+
     </div>
     <!-- Pagination -->
     <Pagination

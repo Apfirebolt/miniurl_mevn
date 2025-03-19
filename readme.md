@@ -1,5 +1,14 @@
 # MEVN URL Shortener with Authentication
 
+![Vue](https://img.shields.io/badge/Vue-green)
+![Express](https://img.shields.io/badge/Express-blue)
+![Docker](https://img.shields.io/badge/Docker-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC)
+![Headless UI](https://img.shields.io/badge/Headless_UI-4B5563)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED)
+![MongoDB](https://img.shields.io/badge/MongoDB-green)
+![Mongoose](https://img.shields.io/badge/Mongoose-red)
+
 This is a url shortener app for a MEVN stack application with authentication. This is for a SPA (Single Page Application) workflow that uses the [Vite](https://vite.dev) Build tool. This uses cookie based approach for authentication.
 
 ## What are URL shortner services?
@@ -16,7 +25,20 @@ It includes the following:
 - Protected routes and endpoints
 - Custom middleware to check JSON web token and store in cookie
 - Custom error middleware
-- React frontend to register, login, logout, view profile, and update profile
+- Vue frontend to register, login, logout, view profile, and update profile
+- Charts for the links visited using charts.js
+
+## Screenshots
+
+Please find some of the screenshots of the application. First 2 pages show the dashboard and the charts showing number of clicks.
+
+![Screenshot 1](screenshots/1.png)
+![Screenshot 2](screenshots/2.png)
+![Screenshot 3](screenshots/3.png)
+
+Register page design
+
+![Screenshot 4](screenshots/4.png)
 
 ## Usage
 
