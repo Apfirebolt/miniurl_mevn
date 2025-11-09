@@ -1,63 +1,56 @@
 <template>
-  <Disclosure as="nav" class="bg-jet-black" v-slot="{ open }">
+  <Disclosure as="nav" class="bg-gradient-to-r from-dark to-tertiary shadow-lg" v-slot="{ open }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <h2 class="text-2xl text-white font-bold">Mini Url</h2>
+            <h2 class="text-2xl text-white font-bold tracking-wide drop-shadow-md">✂️ Mini Url</h2>
           </div>
-          <div class="hidden sm:block sm:ml-6">
-            <div class="flex space-x-4">
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+          <div class="hidden sm:block sm:ml-10">
+            <div class="flex space-x-2">
               <span
                 v-if="userData"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                class="text-white/90 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg text-sm font-medium border border-white/20"
               >
-                Welcome, {{ userData.username }}
+                👋 Welcome, {{ userData.username }}
               </span>
               <router-link
                 to="/"
-                href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                class="text-white hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
                 >Home</router-link
               >
               <router-link
                 v-if="!userData"
                 to="/login"
-                href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                class="text-white hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
                 >Login</router-link
               >
               <router-link
                 v-if="!userData"
                 to="/register"
-                href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                class="bg-white text-indigo-600 hover:bg-indigo-50 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 shadow-md"
                 >Register</router-link
               >
               <router-link
                 v-if="userData"
-                to="/logout"
-                href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                @click.prevent="logoutUtil"
-                >Log out</router-link
+                to="/dashboard"
+                class="text-white hover:bg-white/20 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                >Dashboard</router-link
               >
               <router-link
                 v-if="userData"
-                to="/dashboard"
-                href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >Dashboard</router-link
+                to="/logout"
+                class="text-white hover:bg-red-500/80 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                @click.prevent="logoutUtil"
+                >Log out</router-link
               >
             </div>
           </div>
         </div>
 
         <div class="-mr-2 flex sm:hidden">
-          <!-- Mobile menu button -->
           <DisclosureButton
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            class="inline-flex items-center justify-center p-2 rounded-lg text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
           >
             <span class="sr-only">Open main menu</span>
             <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
@@ -67,44 +60,43 @@
       </div>
     </div>
 
-    <DisclosurePanel class="sm:hidden">
-      <div class="px-2 pt-2 pb-3 space-y-1">
-        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+    <DisclosurePanel class="sm:hidden border-t border-white/20">
+      <div class="px-4 pt-3 pb-4 space-y-2 bg-gradient-to-b from-transparent to-black/10">
         <span
           v-if="userData"
-          class="text-white block px-3 py-2 rounded-md text-base font-medium"
+          class="text-white bg-white/10 backdrop-blur-sm block px-4 py-2 rounded-lg text-base font-medium border border-white/20"
         >
-          Welcome, {{ userData.username }}
+          👋 Welcome, {{ userData.username }}
         </span>
         <router-link
           to="/"
-          class="text-white block px-3 py-2 rounded-md text-base font-medium"
+          class="text-white hover:bg-white/20 block px-4 py-2 rounded-lg text-base font-medium transition-all duration-200"
           >Home</router-link
         >
         <router-link
           v-if="!userData"
           to="/login"
-          class="text-white block px-3 py-2 rounded-md text-base font-medium"
+          class="text-white hover:bg-white/20 block px-4 py-2 rounded-lg text-base font-medium transition-all duration-200"
           >Login</router-link
         >
         <router-link
           v-if="!userData"
           to="/register"
-          class="text-white block px-3 py-2 rounded-md text-base font-medium"
+          class="bg-white text-indigo-600 hover:bg-indigo-50 block px-4 py-2 rounded-lg text-base font-medium transition-all duration-200 text-center shadow-md"
           >Register</router-link
         >
         <router-link
           v-if="userData"
-          to="/logout"
-          class="text-white block px-3 py-2 rounded-md text-base font-medium"
-          @click.prevent="logoutUtil"
-          >Log out</router-link
+          to="/dashboard"
+          class="text-white hover:bg-white/20 block px-4 py-2 rounded-lg text-base font-medium transition-all duration-200"
+          >Dashboard</router-link
         >
         <router-link
           v-if="userData"
-          to="/dashboard"
-          class="text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Dashboard</router-link
+          to="/logout"
+          class="text-white hover:bg-red-500/80 block px-4 py-2 rounded-lg text-base font-medium transition-all duration-200"
+          @click.prevent="logoutUtil"
+          >Log out</router-link
         >
       </div>
     </DisclosurePanel>

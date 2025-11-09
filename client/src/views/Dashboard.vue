@@ -1,19 +1,28 @@
 <template>
   <section class="shadow sm:rounded-lg" id="about">
     <div class="px-4 py-5">
-      <h2 class="text-3xl my-2 py-2 text-center text-jet-black">DASHBOARD</h2>
-      <div class="flex flex-col items-center bg-gray-100 p-4 rounded-md">
-        <p>
+      <h2
+        class="text-4xl font-bold my-4 py-3 text-center text-jet-black"
+      >
+        DASHBOARD
+      </h2>
+      <div
+        class="flex flex-col items-center bg-gradient-to-br text-dark from-primary to-secondary p-6 rounded-xl shadow-lg border border-gray-200"
+      >
+        <p class="text-center leading-relaxed">
           Welcome to the dashboard,
-          <span v-if="authData" class="text-lg font-semibold text-gray-700">
+          <span
+            v-if="authData"
+            class="text-lg font-bold bg-dark bg-clip-text"
+          >
             {{ authData.username }}
           </span>
           Here you can add, view, and delete urls.
         </p>
-        <div class="mt-2">
+        <div class="mt-4">
           <button
             @click="openUrlModal"
-            class="py-2 text-sm px-4 border border-transparent rounded-md shadow-sm font-medium bg-cadet-grey hover:cursor-pointer text-white"
+            class="py-3 px-6 text-sm font-semibold rounded-lg shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cadet-grey focus:ring-offset-2"
           >
             Add Url
           </button>
@@ -22,99 +31,140 @@
 
       <div
         v-if="allUrls && allUrls.data && allUrls.data.length"
-        class="mt-8 container mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2"
+        class="mt-8 container mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         <div
           v-for="urlItem in allUrls.data"
           :key="urlItem._id"
-          class="bg-dark-slate-grey text-white shadow-md rounded-lg"
+          class="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow duration-300"
         >
-          <div class="text-lg my-2 flex justify-between px-4 py-2">
-            <p>
-              Original Url
-            </p>
-             <p>
-              {{ urlItem.originalUrl }}
-             </p>
+          <div
+            class="bg-gradient-to-r from-cadet-grey to-dark-slate-grey px-6 py-4"
+          >
+            <h3 class="font-semibold text-lg">URL Details</h3>
           </div>
-          <div class="text-lg my-2 flex justify-between px-4 py-2">
-            <p>
-              Tiny Url
-            </p>
-             <p>
-              {{ urlItem.urlCode }}
-             </p>
+
+          <div class="px-6 py-4 space-y-4">
+            <div class="flex flex-col">
+              <span class="text-sm font-medium text-gray-500 mb-1"
+                >Original URL</span
+              >
+              <p
+                class="text-gray-800 text-sm break-all bg-gray-50 px-3 py-2 rounded-md"
+              >
+                {{ urlItem.originalUrl }}
+              </p>
+            </div>
+
+            <div class="flex flex-col">
+              <span class="text-sm font-medium text-gray-500 mb-1"
+                >Short Code</span
+              >
+              <p
+                class="text-gray-800 font-mono text-sm bg-gray-50 px-3 py-2 rounded-md"
+              >
+                {{ urlItem.urlCode }}
+              </p>
+            </div>
+
+            <div
+              class="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-md"
+            >
+              <span class="text-sm font-medium text-gray-500"
+                >Total Clicks</span
+              >
+              <span class="text-2xl font-bold text-cadet-grey">
+                {{ urlItem.count }}
+              </span>
+            </div>
           </div>
-          <div class="text-lg my-2 flex justify-between px-4 py-2">
-            <p>
-              Clicks
-            </p>
-             <p>
-              {{ urlItem.count }}
-             </p>
-          </div>
-          
-            <div class="mt-2 flex px-4 py-2 justify-center">
+
+          <div
+            class="px-6 py-4 bg-gray-50 flex gap-3 justify-end border-t border-gray-200"
+          >
             <button
               @click="() => openUrlInNewTab(urlItem)"
-              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-cadet-grey hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mr-2"
+              class="px-4 py-2 bg-cadet-grey hover:bg-opacity-90 text-white text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cadet-grey focus:ring-offset-2"
             >
-              View
+              Open URL
             </button>
             <button
               @click="() => openConfirmModal(urlItem)"
-              class="py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-jet-black hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             >
               Delete
             </button>
-            </div>
+          </div>
         </div>
       </div>
 
       <div v-else class="mt-8 text-center text-gray-600">No urls found</div>
 
-      <div v-if="allUrls && allUrls.data && allUrls.data.length" class="mt-4 mx-auto container">
-        <h3 class="text-2xl text-center text-gray-800 mb-4 bg-neutral-100 py-2">
-          Analytics
+      <div
+        v-if="allUrls && allUrls.data && allUrls.data.length"
+        class="mt-8 mx-auto container"
+      >
+        <h3 class="text-3xl font-bold text-center text-jet-black mb-6 py-3">
+          Analytics Dashboard
         </h3>
-        <div class="bg-white shadow-md rounded-lg p-4">
-          <Bar id="count-charts" :options="chartOptions" :data="chartData" />
-            <div class="flex justify-between">
-              <div class="w-1/2">
-                <Line
+        <div class="bg-white shadow-lg rounded-xl p-6 space-y-8">
+          <div class="bg-gray-50 rounded-lg p-6">
+            <h4 class="text-lg font-semibold text-gray-700 mb-4">
+              Click Statistics
+            </h4>
+            <Bar id="count-charts" :options="chartOptions" :data="chartData" />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 rounded-lg p-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-4">
+                Trend Analysis
+              </h4>
+              <Line
                 id="count-charts-line"
                 :options="chartOptions"
                 :data="chartData"
-                />
-              </div>
-              <div class="w-1/2">
-                <Pie
+              />
+            </div>
+            <div class="bg-gray-50 rounded-lg p-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-4">
+                Distribution
+              </h4>
+              <Pie
                 id="count-charts-pie"
                 :options="chartOptions"
                 :data="chartData"
-                />
-              </div>
+              />
             </div>
-            <div class="flex justify-between">
-              <div class="w-1/2">
-                <Doughnut
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 rounded-lg p-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-4">
+                Click Proportion
+              </h4>
+              <Doughnut
                 id="count-charts-doughnut"
                 :options="chartOptions"
                 :data="chartData"
-                />
-              </div>
-              <div class="w-1/2">
-                <Bubble
+              />
+            </div>
+            <div class="bg-gray-50 rounded-lg p-6">
+              <h4 class="text-lg font-semibold text-gray-700 mb-4">
+                Data Visualization
+              </h4>
+              <Bubble
                 id="count-charts-bubble"
                 :options="chartOptions"
                 :data="chartData"
-                />
-              </div>
+              />
             </div>
+          </div>
         </div>
       </div>
-      <div v-else class="mt-8 text-center text-gray-600">No urls found, please add urls to view analytical charts.</div>
-
+      <div v-else class="mt-8 text-center text-gray-600">
+        No urls found, please add urls to view analytical charts.
+      </div>
     </div>
     <!-- Pagination -->
     <Pagination
@@ -271,8 +321,10 @@ const chartData = computed(() => {
     labels:
       allUrls.value && allUrls.value.data
         ? allUrls.value.data.map((urlItem) => {
-        const match = urlItem.originalUrl.match(/https?:\/\/(www\.)?([^\/.]+)\./);
-        return match ? match[2] : urlItem.urlCode;
+            const match = urlItem.originalUrl.match(
+              /https?:\/\/(www\.)?([^\/.]+)\./
+            );
+            return match ? match[2] : urlItem.urlCode;
           })
         : [],
     datasets: [
@@ -314,7 +366,6 @@ const chartOptions = {
   Legend: {
     display: false,
   },
-
 };
 
 const closeUrlModal = () => {
