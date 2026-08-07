@@ -1,182 +1,197 @@
 <template>
-  <section class="shadow sm:rounded-lg" id="about">
-    <div class="px-4 py-5">
-      <h2
-        class="text-4xl font-bold my-4 py-3 text-center text-jet-black"
-      >
-        DASHBOARD
-      </h2>
-      <div
-        class="flex flex-col items-center bg-gradient-to-br text-dark from-primary to-secondary p-6 rounded-xl shadow-lg border border-gray-200"
-      >
-        <p class="text-center leading-relaxed">
-          Welcome to the dashboard,
-          <span
-            v-if="authData"
-            class="text-lg font-bold bg-dark bg-clip-text"
-          >
-            {{ authData.username }}
-          </span>
-          Here you can add, view, and delete urls.
-        </p>
-        <div class="mt-4">
-          <button
-            @click="openUrlModal"
-            class="py-3 px-6 text-sm font-semibold rounded-lg shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cadet-grey focus:ring-offset-2"
-          >
-            Add Url
-          </button>
-        </div>
-      </div>
+  <section class="min-h-screen bg-slate-900 text-slate-100 py-10 px-4 sm:px-6 lg:px-8" id="about">
+    <div class="max-w-7xl mx-auto space-y-10">
 
-      <div
-        v-if="allUrls && allUrls.data && allUrls.data.length"
-        class="mt-8 container mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <div
-          v-for="urlItem in allUrls.data"
-          :key="urlItem._id"
-          class="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow duration-300"
+      <!-- Header Banner & Action -->
+      <header class="bg-slate-800/60 backdrop-blur-md border border-slate-700/60 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold tracking-wider uppercase">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            URL Shortener Workspace
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+            Welcome back, 
+            <span v-if="authData" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">
+              {{ authData.username }}
+            </span>
+            <span v-else>User</span>!
+          </h1>
+          <p class="text-slate-400 text-sm sm:text-base max-w-xl">
+            Manage your shortened links, track engagement analytics, and create new links in seconds.
+          </p>
+        </div>
+
+        <button
+          @click="openUrlModal"
+          class="shrink-0 px-6 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 active:scale-95 transition-all duration-200 flex items-center gap-2"
         >
-          <div
-            class="bg-gradient-to-r from-cadet-grey to-dark-slate-grey px-6 py-4"
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span>Create Short URL</span>
+        </button>
+      </header>
+
+      <!-- URL Grid Section -->
+      <div v-if="allUrls && allUrls.data && allUrls.data.length" class="space-y-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-100 flex items-center gap-2">
+            <span>Your Links</span>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-amber-400 border border-slate-700">
+              {{ allUrls.data.length }} Active
+            </span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article
+            v-for="urlItem in allUrls.data"
+            :key="urlItem._id"
+            class="group bg-slate-800/60 backdrop-blur-sm border border-slate-700/60 rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/40 hover:shadow-2xl hover:shadow-amber-500/5 transition-all duration-300 flex flex-col justify-between"
           >
-            <h3 class="font-semibold text-lg">URL Details</h3>
-          </div>
+            <!-- Card Header -->
+            <div class="p-5 space-y-4">
+              <!-- Clicks Badge & Code -->
+              <div class="flex items-center justify-between gap-3">
+                <span class="font-mono text-xs font-semibold px-2.5 py-1 rounded-lg bg-amber-400/10 text-amber-400 border border-amber-400/20">
+                  /{{ urlItem.urlCode }}
+                </span>
+                <div class="flex items-center gap-1.5 text-slate-300 text-xs font-medium bg-slate-900/60 px-3 py-1 rounded-full border border-slate-700/50">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  </svg>
+                  <span>{{ urlItem.count }} Clicks</span>
+                </div>
+              </div>
 
-          <div class="px-6 py-4 space-y-4">
-            <div class="flex flex-col">
-              <span class="text-sm font-medium text-gray-500 mb-1"
-                >Original URL</span
-              >
-              <p
-                class="text-gray-800 text-sm break-all bg-gray-50 px-3 py-2 rounded-md"
-              >
-                {{ urlItem.originalUrl }}
-              </p>
+              <!-- Original URL -->
+              <div class="space-y-1">
+                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Destination</span>
+                <p class="text-slate-200 text-sm font-medium line-clamp-2 break-all bg-slate-900/60 p-3 rounded-xl border border-slate-700/40 select-all">
+                  {{ urlItem.originalUrl }}
+                </p>
+              </div>
             </div>
 
-            <div class="flex flex-col">
-              <span class="text-sm font-medium text-gray-500 mb-1"
-                >Short Code</span
+            <!-- Card Actions Footer -->
+            <div class="px-5 py-3.5 bg-slate-900/40 border-t border-slate-700/50 flex items-center justify-between gap-2">
+              <button
+                @click="copyToClipboard(urlItem.urlCode)"
+                class="px-3 py-2 text-xs font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5"
+                title="Copy Short Code"
               >
-              <p
-                class="text-gray-800 font-mono text-sm bg-gray-50 px-3 py-2 rounded-md"
-              >
-                {{ urlItem.urlCode }}
-              </p>
-            </div>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                <span>{{ copiedCode === urlItem.urlCode ? 'Copied!' : 'Copy Code' }}</span>
+              </button>
 
-            <div
-              class="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-md"
-            >
-              <span class="text-sm font-medium text-gray-500"
-                >Total Clicks</span
-              >
-              <span class="text-2xl font-bold text-cadet-grey">
-                {{ urlItem.count }}
-              </span>
-            </div>
-          </div>
+              <div class="flex items-center gap-2">
+                <button
+                  @click="openUrlInNewTab(urlItem)"
+                  class="px-3.5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-semibold rounded-lg transition-all flex items-center gap-1"
+                >
+                  <span>Visit</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                </button>
 
-          <div
-            class="px-6 py-4 bg-gray-50 flex gap-3 justify-end border-t border-gray-200"
-          >
-            <button
-              @click="() => openUrlInNewTab(urlItem)"
-              class="px-4 py-2 bg-cadet-grey hover:bg-opacity-90 text-white text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cadet-grey focus:ring-offset-2"
-            >
-              Open URL
-            </button>
-            <button
-              @click="() => openConfirmModal(urlItem)"
-              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-            >
-              Delete
-            </button>
-          </div>
+                <button
+                  @click="openConfirmModal(urlItem)"
+                  class="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                  title="Delete URL"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
 
-      <div v-else class="mt-8 text-center text-gray-600">No urls found</div>
+      <!-- Empty Links State -->
+      <div v-else class="text-center py-16 bg-slate-800/40 border border-slate-700/50 rounded-2xl max-w-md mx-auto">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-700/50 text-slate-400 mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-200">No URLs created yet</h3>
+        <p class="text-sm text-slate-400 mt-1">Add your first URL above to start tracking link analytics.</p>
+      </div>
 
-      <div
-        v-if="allUrls && allUrls.data && allUrls.data.length"
-        class="mt-8 mx-auto container"
-      >
-        <h3 class="text-3xl font-bold text-center text-jet-black mb-6 py-3">
-          Analytics Dashboard
-        </h3>
-        <div class="bg-white shadow-lg rounded-xl p-6 space-y-8">
-          <div class="bg-gray-50 rounded-lg p-6">
-            <h4 class="text-lg font-semibold text-gray-700 mb-4">
+      <!-- Analytics Dashboard Section -->
+      <div v-if="allUrls && allUrls.data && allUrls.data.length" class="space-y-6 pt-6 border-t border-slate-800">
+        <div class="text-center space-y-2">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Analytics Overview
+          </h2>
+          <p class="text-sm text-slate-400 max-w-lg mx-auto">
+            Visual breakdown of click counts, trends, and distributions across all shortenings.
+          </p>
+        </div>
+
+        <!-- Chart Grid -->
+        <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700/60 rounded-3xl p-6 sm:p-8 space-y-8 shadow-2xl">
+          
+          <!-- Primary Chart -->
+          <div class="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+            <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
               Click Statistics
-            </h4>
-            <Bar id="count-charts" :options="chartOptions" :data="chartData" />
+            </h3>
+            <div class="h-64 sm:h-80 relative">
+              <Bar id="count-charts" :options="chartOptions" :data="chartData" />
+            </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-50 rounded-lg p-6">
-              <h4 class="text-lg font-semibold text-gray-700 mb-4">
+          <!-- Secondary Grid Charts -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+              <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
                 Trend Analysis
-              </h4>
-              <Line
-                id="count-charts-line"
-                :options="chartOptions"
-                :data="chartData"
-              />
+              </h3>
+              <div class="h-60 relative">
+                <Line id="count-charts-line" :options="chartOptions" :data="chartData" />
+              </div>
             </div>
-            <div class="bg-gray-50 rounded-lg p-6">
-              <h4 class="text-lg font-semibold text-gray-700 mb-4">
+
+            <div class="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+              <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
                 Distribution
-              </h4>
-              <Pie
-                id="count-charts-pie"
-                :options="chartOptions"
-                :data="chartData"
-              />
+              </h3>
+              <div class="h-60 relative flex justify-center">
+                <Doughnut id="count-charts-doughnut" :options="pieChartOptions" :data="chartData" />
+              </div>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-gray-50 rounded-lg p-6">
-              <h4 class="text-lg font-semibold text-gray-700 mb-4">
-                Click Proportion
-              </h4>
-              <Doughnut
-                id="count-charts-doughnut"
-                :options="chartOptions"
-                :data="chartData"
-              />
-            </div>
-            <div class="bg-gray-50 rounded-lg p-6">
-              <h4 class="text-lg font-semibold text-gray-700 mb-4">
-                Data Visualization
-              </h4>
-              <Bubble
-                id="count-charts-bubble"
-                :options="chartOptions"
-                :data="chartData"
-              />
-            </div>
-          </div>
         </div>
       </div>
-      <div v-else class="mt-8 text-center text-gray-600">
-        No urls found, please add urls to view analytical charts.
-      </div>
+
     </div>
+
     <!-- Pagination -->
-    <Pagination
-      @goToPreviousPage="goToPreviousPage"
-      @goToNextPage="goToNextPage"
-      :allUrls="allUrls"
-      :currentPage="currentPage"
-      :numberOfItemsPerPage="numberOfItemsPerPage"
-    />
+    <div class="mt-8 max-w-7xl mx-auto">
+      <Pagination
+        @goToPreviousPage="goToPreviousPage"
+        @goToNextPage="goToNextPage"
+        :allUrls="allUrls"
+        :currentPage="currentPage"
+        :numberOfItemsPerPage="numberOfItemsPerPage"
+      />
+    </div>
   </section>
+
+  <!-- URL Form Modal -->
   <TransitionRoot appear :show="isUrlModalOpened" as="template">
-    <Dialog as="div" @close="closeUrlModal" class="relative z-10">
+    <Dialog as="div" @close="closeUrlModal" class="relative z-50">
       <TransitionChild
         as="template"
         enter="duration-300 ease-out"
@@ -186,13 +201,11 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-black/25" />
+        <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" />
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
-        >
+        <div class="flex min-h-full items-center justify-center p-4">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -202,15 +215,11 @@
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel
-              class="w-full max-w-xl transform overflow-hidden rounded-2xl bg-light-blue text-left align-middle shadow-xl transition-all"
-            >
-              <div class="mt-2">
-                <UrlForm
-                  @add-url-action="addUrlActionUtil"
-                  @close-modal="closeUrlModal"
-                />
-              </div>
+            <DialogPanel class="w-full max-w-xl bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl text-slate-100">
+              <UrlForm
+                @add-url-action="addUrlActionUtil"
+                @close-modal="closeUrlModal"
+              />
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -218,8 +227,9 @@
     </Dialog>
   </TransitionRoot>
 
+  <!-- Confirm Delete Modal -->
   <TransitionRoot appear :show="isConfirmModalOpened" as="template">
-    <Dialog as="div" @close="closeConfirmModal" class="relative z-10">
+    <Dialog as="div" @close="closeConfirmModal" class="relative z-50">
       <TransitionChild
         as="template"
         enter="duration-300 ease-out"
@@ -229,13 +239,11 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-black/25" />
+        <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" />
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
-        >
+        <div class="flex min-h-full items-center justify-center p-4">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -245,16 +253,12 @@
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-light-blue text-left align-middle shadow-xl transition-all"
-            >
-              <div class="mt-2">
-                <ConfirmModal
-                  @confirm-action="confirmDelete"
-                  :message="deleteMessage"
-                  @close-modal="closeConfirmModal"
-                />
-              </div>
+            <DialogPanel class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl text-slate-100">
+              <ConfirmModal
+                @confirm-action="confirmDelete"
+                :message="deleteMessage"
+                @close-modal="closeConfirmModal"
+              />
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -272,8 +276,7 @@ import {
   TransitionRoot,
   DialogPanel,
 } from "@headlessui/vue";
-// import vue-chart-3 chart.js
-import { Bar, Pie, Line, Doughnut, Bubble } from "vue-chartjs";
+import { Bar, Line, Doughnut } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
@@ -300,6 +303,7 @@ const deleteMessage = ref("");
 const selectedUrl = ref(null);
 const currentPage = ref(1);
 const numberOfItemsPerPage = 5;
+const copiedCode = ref(null);
 
 const allUrls = computed(() => url.getUrls);
 const authData = computed(() => auth.getAuthData);
@@ -334,13 +338,14 @@ const chartData = computed(() => {
             ? allUrls.value.data.map((urlItem) => urlItem.count)
             : [],
         backgroundColor: [
-          "#B8DBD9", // Light Blue
-          "#F4F4F9", // Ghost Grey
-          "#586F7C", // Cadet Grey
-          "#2F4550", // Dark Slate Grey
-          "#333333", // Jet Black
-        ], // Array of colors
-        borderColor: "#f9f9f9",
+          "#fbbf24", // Amber 400
+          "#f59e0b", // Amber 500
+          "#38bdf8", // Sky 400
+          "#818cf8", // Indigo 400
+          "#34d399", // Emerald 400
+        ],
+        borderColor: "#1e293b",
+        borderWidth: 2,
         label: "Clicks",
       },
     ],
@@ -349,23 +354,48 @@ const chartData = computed(() => {
 
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      backgroundColor: "#0f172a",
+      titleColor: "#f8fafc",
+      bodyColor: "#fbbf24",
+      borderColor: "#334155",
+      borderWidth: 1,
+    },
+  },
   scales: {
     x: {
-      title: {
-        display: true,
-        text: "Tiny Url",
-      },
+      grid: { color: "rgba(51, 65, 85, 0.4)" },
+      ticks: { color: "#94a3b8" },
     },
     y: {
-      title: {
-        display: true,
-        text: "Clicks",
-      },
+      grid: { color: "rgba(51, 65, 85, 0.4)" },
+      ticks: { color: "#94a3b8" },
     },
   },
-  Legend: {
-    display: false,
+};
+
+const pieChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "bottom",
+      labels: { color: "#94a3b8" },
+    },
   },
+};
+
+const copyToClipboard = (code) => {
+  navigator.clipboard.writeText(code);
+  copiedCode.value = code;
+  setTimeout(() => {
+    copiedCode.value = null;
+  }, 2000);
 };
 
 const closeUrlModal = () => {
@@ -376,9 +406,9 @@ const openUrlModal = () => {
   isUrlModalOpened.value = true;
 };
 
-const openConfirmModal = (url) => {
-  selectedUrl.value = url;
-  deleteMessage.value = `Are you sure you want to delete ${url.originalUrl}?`;
+const openConfirmModal = (urlItem) => {
+  selectedUrl.value = urlItem;
+  deleteMessage.value = `Are you sure you want to delete ${urlItem.originalUrl}?`;
   isConfirmModalOpened.value = true;
 };
 
@@ -401,7 +431,6 @@ const addUrlActionUtil = async (urlData) => {
 const openUrlInNewTab = async (urlItem) => {
   window.open(urlItem.originalUrl, "_blank");
   await url.incrementUrlCount(urlItem);
-  // after 2 seconds refresh the urls
   setTimeout(async () => {
     await url.getUrlsAction(currentPage.value);
   }, 2000);
@@ -426,3 +455,12 @@ onMounted(async () => {
   await url.getUrlsAction();
 });
 </script>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

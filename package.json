@@ -13,20 +13,20 @@
   "author": "Amit Prafulla",
   "license": "MIT",
   "dependencies": {
-    "@tailwindcss/postcss": "^4.0.9",
-    "bcryptjs": "^3.0.2",
+    "@tailwindcss/postcss": "^4.3.3",
+    "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "express-async-handler": "^1.2.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.11.0",
-    "node-cron": "^3.0.3",
-    "redis": "^4.7.0"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.1",
+    "node-cron": "^4.6.0",
+    "redis": "^6.2.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2",
-    "nodemon": "^3.1.9"
+    "concurrently": "^10.0.4",
+    "nodemon": "^3.1.14"
   }
 }
