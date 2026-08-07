@@ -1,4 +1,3 @@
-// populateUsers.js (with ES modules)
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import User from "../models/userModel.js"; // Import the User model
