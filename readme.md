@@ -32,13 +32,11 @@ It includes the following:
 
 Please find some of the screenshots of the application. First 2 pages show the dashboard and the charts showing number of clicks.
 
-![Screenshot 1](screenshots/1.png)
-![Screenshot 2](screenshots/2.png)
-![Screenshot 3](screenshots/3.png)
+![Screenshot 1](screenshots/1.jpg)
+![Screenshot 2](screenshots/2.jpg)
+![Screenshot 3](screenshots/3.jpg)
+![Screenshot 4](screenshots/4.jpg)
 
-Register page design
-
-![Screenshot 4](screenshots/4.png)
 
 ## Usage
 
