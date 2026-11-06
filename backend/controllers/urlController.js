@@ -180,6 +180,40 @@ const incrementUrlCount = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Redirect to original URL and increment count
+// @route   GET /:urlCode
+// @access  Public
+const redirectUrl = asyncHandler(async (req, res) => {
+  const { urlCode } = req.params;
+
+  // Find the URL by its unique code
+  const url = await Url.findOne({ urlCode });
+
+  if (!url) {
+    res.status(404);
+    throw new Error("URL not found");
+  }
+
+  // Atomically increment the click count and update timestamp
+  url.count += 1;
+  await url.save();
+
+  // Invalidate cache for the URL owner since the count changed
+  const userId = url.user.toString();
+  const cacheKey = `userUrls:${userId}:*`;
+  try {
+    const keys = await redisClient.keys(cacheKey);
+    if (keys.length > 0) {
+      await redisClient.del(keys);
+    }
+  } catch (err) {
+    console.error("Error clearing cache on redirect", err);
+  }
+
+  // Redirect to the original URL (302 Found / Temporary Redirect is standard for short links)
+  return res.redirect(302, url.originalUrl);
+});
+
 // @desc    Get existing URL
 // @route   GET /api/url/:id
 // @access  Private - User or Admin
@@ -202,4 +236,12 @@ const getUrl = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUserUrls, createUrl, deleteUrl, getUrl, incrementUrlCount };
+// @desc    Get all urls
+// @route   GET /api/url/all
+// @access  Public
+const getAllUrls = asyncHandler(async (req, res) => {
+  const urls = await Url.find({});
+  res.json(urls);
+});
+
+export { getUserUrls, createUrl, deleteUrl, getUrl, incrementUrlCount, redirectUrl, getAllUrls };
